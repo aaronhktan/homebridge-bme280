@@ -4,6 +4,8 @@ This is a Homebridge plugin for BME280 temperature, humidity, and barometric pre
 
 It communicates with the sensor using Linux's user-mode I2C API, i2c-dev.
 
+<img src="/docs/eve.png?raw=true" style="margin: 5px"> <img src="/docs/home.png?raw=true" style="margin: 5px">
+
 ## Configuration
 **Before running this plugin, you must add the `homebridge` user to the `i2c` group so Homebridge can access the i2c-dev interface. `sudo adduser homebridge i2c`**
 
