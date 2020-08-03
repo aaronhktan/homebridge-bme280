@@ -132,7 +132,7 @@ static int compensate_temperature(int32_t t_in, double *t_out) {
   temperature = (t_fine * 5 + 128) >> 8;
   *t_out = temperature / 100.0;
 
-   return NO_ERROR;
+  return NO_ERROR;
 }
 
 static int compensate_humidity(int32_t h_in, double *h_out) {
