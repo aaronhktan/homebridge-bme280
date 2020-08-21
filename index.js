@@ -14,7 +14,7 @@ module.exports = (homebridge) => {
   CustomCharacteristic = require('./src/js/customcharacteristic.js')(homebridge);
   FakeGatoHistoryService = require('fakegato-history')(homebridge);
 
-  homebridge.registerAccessory("homebridge-bme280", "BME280", BME280Accessory);
+  homebridge.registerAccessory('homebridge-bme280', 'BME280', BME280Accessory);
 }
 
 function BME280Accessory(log, config) {
@@ -46,8 +46,8 @@ function BME280Accessory(log, config) {
   // Services
   let informationService = new Service.AccessoryInformation();
   informationService
-    .setCharacteristic(Characteristic.Manufacturer, "Bosch")
-    .setCharacteristic(Characteristic.Model, "BME280")
+    .setCharacteristic(Characteristic.Manufacturer, 'Bosch')
+    .setCharacteristic(Characteristic.Model, 'BME280')
     .setCharacteristic(Characteristic.SerialNumber, `${os.hostname}-${this.i2cInterface.split('/').pop()}`)
     .setCharacteristic(Characteristic.FirmwareRevision, require('./package.json').version);
 
@@ -61,7 +61,7 @@ function BME280Accessory(log, config) {
 
   // Start FakeGato for logging historical data
   if (this.enableFakeGato) {
-    this.fakeGatoHistoryService = new FakeGatoHistoryService("weather", this, {
+    this.fakeGatoHistoryService = new FakeGatoHistoryService('weather', this, {
       storage: 'fs',
       folder: this.fakeGatoStoragePath
     });
@@ -79,7 +79,7 @@ function BME280Accessory(log, config) {
 }
 
 // Error checking and averaging when saving pressure and temperature
-Object.defineProperty(BME280Accessory.prototype, "pressure", {
+Object.defineProperty(BME280Accessory.prototype, 'pressure', {
   set: function(pressureReading) {
     // Calculate running average of pressure over the last 30 samples
     this._pressureCounter++;
@@ -117,7 +117,7 @@ Object.defineProperty(BME280Accessory.prototype, "pressure", {
   }
 });
 
-Object.defineProperty(BME280Accessory.prototype, "temperature", {
+Object.defineProperty(BME280Accessory.prototype, 'temperature', {
   set: function(temperatureReading) {
     // Calculate running average of temperature over the last 30 samples
     this._temperatureCounter++;
@@ -155,7 +155,7 @@ Object.defineProperty(BME280Accessory.prototype, "temperature", {
   }
 });
 
-Object.defineProperty(BME280Accessory.prototype, "humidity", {
+Object.defineProperty(BME280Accessory.prototype, 'humidity', {
   set: function(humidityReading) {
     // Calculate running average of humidity over the last 30 samples
     this._humidityCounter++;
@@ -196,12 +196,12 @@ Object.defineProperty(BME280Accessory.prototype, "humidity", {
 // Sets up MQTT client based on config loaded in constructor
 BME280Accessory.prototype.setUpMQTT = function() {
   if (!this.enableMQTT) {
-    this.log.info("MQTT not enabled");
+    this.log.info('MQTT not enabled');
     return;
   }
 
   if (!this.mqttConfig) {
-    this.log.error("No MQTT config found");
+    this.log.error('No MQTT config found');
     return;
   }
 
@@ -211,10 +211,10 @@ BME280Accessory.prototype.setUpMQTT = function() {
   this.humidityTopic = this.mqttConfig.humidityTopic || 'BME280/humidity';
 
   this.mqttClient = mqtt.connect(this.mqttUrl);
-  this.mqttClient.on("connect", () => {
+  this.mqttClient.on('connect', () => {
     this.log(`MQTT client connected to ${this.mqttUrl}`);
   });
-  this.mqttClient.on("error", (err) => {
+  this.mqttClient.on('error', (err) => {
     this.log(`MQTT client error: ${err}`);
     client.end();
   });
@@ -223,7 +223,7 @@ BME280Accessory.prototype.setUpMQTT = function() {
 // Sends data to MQTT broker; must have called setupMQTT() previously
 BME280Accessory.prototype.publishToMQTT = function(topic, value) {
   if (!this.mqttClient.connected || !topic) {
-    this.log.error("MQTT client not connected, or no topic or value for MQTT");
+    this.log.error('MQTT client not connected, or no topic or value for MQTT');
     return;
   }
   this.mqttClient.publish(topic, String(value));
