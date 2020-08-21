@@ -1,2 +1,6 @@
-.DS_Store
+# macOS stuff
+*.DS_Store
 
+# Build artifacts
+build/
+node_modules/

@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 int main(int argc, char **argv) {
-  int rv = BME280_init("/dev/i2c-3");
+  int rv = BME280_init("/dev/i2c-4");
   if (rv) {
     printf("Failed to init BME280\n");
   }
